@@ -1,0 +1,6 @@
+pandas==1.2.5
+pymatgen==2022.0.9
+numpy==1.20.3
+tqdm==4.61.2
+scikit-learn==0.23.2
+pickle5==0.0.11
