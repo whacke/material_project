@@ -25,9 +25,13 @@ def asyncJSON(file):
         data = json.loads(f.read())
     properties = process_dict(data, {})
     properties['name'] = file.split('.')[0]
-    return properties
-  except:
+    df = pd.DataFrame([properties])
+    df.set_index('name',inplace=True)
+    file = file[:-5]
+    df.to_csv('temp/JSONs/{}.csv'.format(file))
+  except Exception as e:
     print("Error parsing at {}".format(file))
+    print(e)
 
 
 print("Starting JSONs...")
@@ -35,8 +39,4 @@ jsons = os.listdir('input/JSONs/')
 
 if __name__ == '__main__':
   with Pool() as p:
-    materials = p.map(asyncJSON, jsons)
-
-json_df = pd.DataFrame(materials)
-json_df.set_index('name',inplace=True)
-json_df.to_csv('output/JSON_frame.csv')
+    p.map(asyncJSON, jsons)
